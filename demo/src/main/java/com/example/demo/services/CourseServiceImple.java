@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -16,21 +17,33 @@ public class CourseServiceImple implements CourseService {
 	private CourseDao courseDao;
 	
 	
-	public static final String topic="demo1";
 	@Autowired
-	private KafkaTemplate<String,Course> kafkatemp;
+	private KafkaTemplate<String,Course> kafkaTemplate;
+	
+	private static final String TOPIC="demo1";
 	
 	
 	
-
+//	public void consumeJson(Course course) {
+//		System.out.println("consumed JSON message"+ course);
+//		courseDao.save(course);
+//	}
+//	
+	
+	
+	
 	@Override
-	public void getCourses() {
-		List<Course>courseslist= courseDao.findAll();
-		for(Course i: courseslist) {
-			this.kafkatemp.send(topic,i);
-			
-		}
+	public List<Course> getCourses() {
 		
+		List<Course> courselist=courseDao.findAll();
+		for(Course i:courselist) {		
+			this.kafkaTemplate.send(TOPIC,i);
+
+		}
+		return courselist;
+		//return courselist;
+		
+	
 
 		//return courseDao.findAll();
 		
@@ -42,10 +55,9 @@ public class CourseServiceImple implements CourseService {
 	}
 
 	@Override
-	public void addCourse(Course course) {
+	public Course addCourse(Course course) {
 		courseDao.save(course);
-		this.kafkatemp.send(topic,course);
-	
+return course;	
 	}
 
 	@Override

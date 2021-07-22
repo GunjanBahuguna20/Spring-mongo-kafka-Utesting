@@ -7,11 +7,11 @@ import com.example.demo.model.Course;
 
 public interface CourseService {
 	
-	public void getCourses();
+	public List<Course> getCourses();
 
 	public Optional<Course> getCourse(long courseId);
 
-	public void addCourse(Course course);
+	public Course addCourse(Course course);
 
 	public Course updateCourse(Course course);
 

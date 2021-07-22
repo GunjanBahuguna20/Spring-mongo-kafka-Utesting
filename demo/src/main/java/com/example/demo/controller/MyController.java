@@ -21,6 +21,8 @@ import com.example.demo.model.Course;
 import com.example.demo.services.CourseService;
 
 @RestController
+@RequestMapping("/kafka")
+
 public class MyController {
 	
 	
@@ -28,10 +30,12 @@ public class MyController {
 	@Autowired
 	private CourseService courseservice;
 	
-	@GetMapping("/courses")
-	public void getCourses(){
 		
-		 this.courseservice.getCourses();
+	
+	@GetMapping("/courses")
+	public List<Course> getCourses(){
+		
+		 return this.courseservice.getCourses();
 		
 		
 	}
@@ -45,8 +49,8 @@ public class MyController {
 
 	
 	@PostMapping("/courses")
-	public void addCourse(@RequestBody Course course) {
-		this.courseservice.addCourse(course);
+	public Course addCourse(@RequestBody Course course) {
+		return this.courseservice.addCourse(course);
 	}
 	
 	@PutMapping("/courses")

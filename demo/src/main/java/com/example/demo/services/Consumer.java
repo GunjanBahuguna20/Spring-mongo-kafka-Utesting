@@ -1,14 +1,19 @@
 package com.example.demo.services;
 
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.stereotype.Service;
 
 import com.example.demo.model.Course;
-@Service
+
 public class Consumer {
-	@KafkaListener(topics="demo1", groupId="kafka")
-public void consumerFromTopic(Course course) {
-		System.out.println("recieved"+ course);
-		
+@Autowired 
+CourseService courseservice;
+	
+	@KafkaListener(topics="demo1",groupId="kafka")
+	public List<Course> consume() {
+		List<Course> courselist = courseservice.getCourses();
+		return courselist;
 	}
 }
