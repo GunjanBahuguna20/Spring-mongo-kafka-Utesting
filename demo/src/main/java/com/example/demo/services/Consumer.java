@@ -16,4 +16,11 @@ CourseService courseservice;
 		List<Course> courselist = courseservice.getCourses();
 		return courselist;
 	}
+	
+	@KafkaListener
+	public void consume1(Course course) {
+		System.out.println("Added course"+course);
+		
+	}
+
 }

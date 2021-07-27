@@ -51,13 +51,16 @@ public class CourseServiceImple implements CourseService {
 
 	@Override
 	public Optional<Course> getCourse(long courseId) {
-				return courseDao.findById(courseId);
+		//Optional<Course> data = courseDao.findById(courseId);	
+		//return this.kafkaTemplate.send(TOPIC,data);
+		return courseDao.findById(courseId);
 	}
 
 	@Override
 	public Course addCourse(Course course) {
 		courseDao.save(course);
-return course;	
+    this.kafkaTemplate.send(TOPIC,course);	
+    return course;
 	}
 
 	@Override
